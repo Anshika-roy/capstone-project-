@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Experiment 2 - jQuery Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg: #f4f2ec; --ink: #17231f; --soft: #5c6a63; --primary: #1f5d4f; --accent: #e2703a; --border: #e1ddd0; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; padding: 2rem 1rem; background: var(--bg); color: var(--ink); font: 1rem/1.5 Inter, sans-serif; }
+    main { max-width: 720px; margin: 0 auto; }
+    h1, h2 { font-family: Fraunces, Georgia, serif; }
+    .demo { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; margin-top: 1rem; }
+    label { display: block; font-weight: 600; margin-bottom: .5rem; }
+    input { width: 100%; padding: .7rem .8rem; border: 1px solid var(--border); border-radius: 8px; font: inherit; }
+    #strength { margin: .6rem 0 0; color: var(--soft); font-weight: 600; }
+    .stars { display: flex; gap: .25rem; margin-top: .5rem; }
+    .star { border: 0; background: transparent; color: var(--border); cursor: pointer; font-size: 2rem; padding: 0; }
+    .star.selected, .star:hover { color: var(--accent); }
+    #rating-message { color: var(--soft); min-height: 1.5rem; }
+    a { color: var(--primary); }
+  </style>
+</head>
+<body>
+  <main>
+    <a href="/capstone-project-/">Back to Travel Explorer</a>
+    <h1>Experiment 2: jQuery Password Strength and Star Rating</h1>
+    <section class="demo">
+      <h2>Password strength</h2>
+      <label for="password">Enter a password</label>
+      <input id="password" type="password" autocomplete="new-password">
+      <p id="strength">Strength: type a password</p>
+    </section>
+    <section class="demo">
+      <h2>Star rating</h2>
+      <div class="stars" role="radiogroup" aria-label="Rating">
+        <button class="star" data-rating="1" aria-label="1 star">★</button>
+        <button class="star" data-rating="2" aria-label="2 stars">★</button>
+        <button class="star" data-rating="3" aria-label="3 stars">★</button>
+        <button class="star" data-rating="4" aria-label="4 stars">★</button>
+        <button class="star" data-rating="5" aria-label="5 stars">★</button>
+      </div>
+      <p id="rating-message">Select a rating.</p>
+    </section>
+  </main>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script>
+    $("#password").on("input", function () {
+      const value = $(this).val();
+      let strength = "Weak";
+      if (value.length >= 8 && /[A-Z]/.test(value) && /\d/.test(value)) strength = "Strong";
+      else if (value.length >= 6 && /\d/.test(value)) strength = "Medium";
+      $("#strength").text(value ? `Strength: ${strength}` : "Strength: type a password");
+    });
+
+    $(".star").on("click", function () {
+      const rating = Number($(this).data("rating"));
+      $(".star").each(function () {
+        $(this).toggleClass("selected", Number($(this).data("rating")) <= rating);
+      });
+      $("#rating-message").text(`Selected rating: ${rating}/5`);
+    });
+  </script>
+</body>
+</html>
