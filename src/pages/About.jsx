@@ -15,9 +15,9 @@ function About() {
         <strong> React Router DOM</strong>.
       </p>
       <p>
-        At this stage, all destination data lives in a local JavaScript array
-        (<code>src/data/destinations.js</code>). A later experiment will connect
-        this frontend to a Node.js/Express backend backed by MongoDB.
+        The app uses a Node.js/Express API backed by MongoDB for live
+        destinations, enquiries, and Razorpay test-mode checkout, with the
+        local destination guide available when the API is unavailable.
       </p>
 
       <h2>What this experiment demonstrates</h2>
