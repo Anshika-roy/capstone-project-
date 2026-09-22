@@ -47,6 +47,17 @@
   cursor: wait;
 }
 
+.payment-message {
+  color: var(--color-primary);
+  font-size: 0.85rem;
+  line-height: 1.4;
+  margin: 0.2rem 0;
+}
+
+.payment-error {
+  color: #a33a3a;
+}
+
 .contact-success {
   margin-top: 1.5rem;
   background: var(--color-surface-alt);

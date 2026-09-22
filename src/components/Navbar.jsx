@@ -24,6 +24,8 @@ function Navbar() {
           <NavLink to="/explore" className={linkClass}>Explore</NavLink>
           <NavLink to="/about" className={linkClass}>About</NavLink>
           <NavLink to="/contact" className={linkClass}>Contact</NavLink>
+          <NavLink to="/register" className={linkClass}>Register</NavLink>
+          <NavLink to="/login" className={linkClass}>Login</NavLink>
         </nav>
       </div>
     </header>

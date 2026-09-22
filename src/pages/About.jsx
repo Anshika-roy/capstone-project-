@@ -28,6 +28,10 @@ function About() {
         <li>Rendering lists dynamically with map()</li>
         <li>Multi-page navigation with React Router, including dynamic routes</li>
       </ul>
+      <p>
+        The standalone <a href="/capstone-project-/experiments/exp2-jquery.html">Experiment 2 jQuery demo</a>
+        demonstrates password strength and interactive star rating without changing the React application.
+      </p>
     </div>
   );
 }
