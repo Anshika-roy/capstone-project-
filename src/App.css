@@ -1,0 +1,50 @@
+/* App.css -- global styles and design tokens (CSS variables) */
+
+:root {
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --color-bg: #f4f2ec;
+  --color-surface: #ffffff;
+  --color-surface-alt: #eef0e6;
+  --color-border: #e1ddd0;
+  --color-ink: #17231f;
+  --color-ink-soft: #5c6a63;
+  --color-primary: #1f5d4f;
+  --color-accent: #e2703a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--color-bg);
+  color: var(--color-ink);
+  line-height: 1.5;
+}
+
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-main {
+  flex: 1;
+}
+
+a {
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+}
