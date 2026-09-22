@@ -171,6 +171,31 @@
   font-size: 0.95rem;
 }
 
+.booking-btn {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.booking-btn:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
+.payment-message {
+  color: var(--color-primary);
+  font-size: 0.85rem;
+  line-height: 1.4;
+  margin: 0.8rem 0 0;
+}
+
+.payment-error {
+  color: #a33a3a;
+}
+
+.retry-btn {
+  margin-top: 0.8rem;
+}
+
 .not-found {
   max-width: 600px;
   margin: 4rem auto;

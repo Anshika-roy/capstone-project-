@@ -8,7 +8,7 @@ function Footer() {
     <footer className="footer">
       <div className="footer-inner">
         <p>Travel Destination Explorer &mdash; Advanced Web Technology Capstone, Experiment 3</p>
-        <p className="footer-note">Built with React.js &amp; React Router &middot; Data is local (no backend yet)</p>
+        <p className="footer-note">Built with React.js &amp; React Router &middot; Live API with local fallback</p>
       </div>
     </footer>
   );

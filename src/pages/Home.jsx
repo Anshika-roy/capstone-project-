@@ -5,11 +5,12 @@
 // linking into the Explore page or straight to a details page.
 
 import { Link } from "react-router-dom";
-import destinations from "../data/destinations";
 import DestinationGrid from "../components/DestinationGrid";
+import { useDestinations } from "../hooks/useDestinations";
 import "./Home.css";
 
 function Home() {
+  const { destinations, isLoading, error } = useDestinations();
   const featured = destinations.slice(0, 3);
 
   return (
@@ -36,6 +37,8 @@ function Home() {
           <h2>Popular right now</h2>
           <Link to="/explore" className="section-link">View all →</Link>
         </div>
+        {isLoading && <p className="data-status">Loading live destinations...</p>}
+        {error && <p className="data-status data-status-error">{error}</p>}
         <DestinationGrid destinationList={featured} />
       </section>
     </div>

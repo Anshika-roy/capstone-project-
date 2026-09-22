@@ -6,11 +6,14 @@
 // just shows a confirmation message using another piece of state.
 
 import { useState } from "react";
+import { submitEnquiry } from "../lib/api";
 import "./Contact.css";
 
 function Contact() {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState("");
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -18,9 +21,18 @@ function Contact() {
     setFormData((previous) => ({ ...previous, [name]: value }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault(); // stop the browser from reloading the page
-    setSubmitted(true);
+    setIsSubmitting(true);
+    setError("");
+    try {
+      await submitEnquiry(formData);
+      setSubmitted(true);
+    } catch (requestError) {
+      setError(requestError.message || "Unable to send your message right now.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -30,7 +42,7 @@ function Contact() {
 
       {submitted ? (
         <div className="contact-success">
-          <p>Thanks, {formData.name || "traveller"}! Your message has been noted (demo only -- no backend yet).</p>
+          <p>Thanks, {formData.name || "traveller"}! Your message has been sent.</p>
           <button onClick={() => { setSubmitted(false); setFormData({ name: "", email: "", message: "" }); }}>
             Send another message
           </button>
@@ -49,7 +61,8 @@ function Contact() {
             Message
             <textarea name="message" rows="5" value={formData.message} onChange={handleChange} required />
           </label>
-          <button type="submit" className="submit-btn">Send Message</button>
+          {error && <p className="payment-message payment-error">{error}</p>}
+          <button type="submit" className="submit-btn" disabled={isSubmitting}>{isSubmitting ? "Sending..." : "Send Message"}</button>
         </form>
       )}
     </div>

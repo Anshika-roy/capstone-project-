@@ -5,27 +5,31 @@
 // SearchBar and CategoryFilter components ("lifting state up").
 // It then derives a filtered list and hands it to DestinationGrid.
 
-import { useState } from "react";
-import destinations, { categories } from "../data/destinations";
+import { useMemo, useState } from "react";
+import { categories } from "../data/destinations";
 import SearchBar from "../components/SearchBar";
 import CategoryFilter from "../components/CategoryFilter";
 import DestinationGrid from "../components/DestinationGrid";
+import { useDestinations } from "../hooks/useDestinations";
 import "./Explore.css";
 
 function Explore() {
   const [searchTerm, setSearchTerm] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
+  const { destinations, isLoading, error } = useDestinations();
 
   // Recomputed on every render -- fine for a small, local array like this.
-  const filteredDestinations = destinations.filter((destination) => {
+  const filteredDestinations = useMemo(() => destinations.filter((destination) => {
+    const name = destination.name || "";
+    const state = destination.state || "";
     const matchesSearch =
-      destination.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      destination.state.toLowerCase().includes(searchTerm.toLowerCase());
+      name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      state.toLowerCase().includes(searchTerm.toLowerCase());
 
     const matchesCategory = activeCategory === "All" || destination.category === activeCategory;
 
     return matchesSearch && matchesCategory;
-  });
+  }), [destinations, searchTerm, activeCategory]);
 
   return (
     <div className="explore-page">
@@ -42,6 +46,9 @@ function Explore() {
           onCategoryChange={setActiveCategory}
         />
       </div>
+
+      {isLoading && <p className="data-status">Loading live destinations...</p>}
+      {error && <p className="data-status data-status-error">{error}</p>}
 
       <p className="results-count">
         {filteredDestinations.length} destination{filteredDestinations.length !== 1 ? "s" : ""} found

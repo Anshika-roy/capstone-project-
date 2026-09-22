@@ -42,6 +42,11 @@
   cursor: pointer;
 }
 
+.submit-btn:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
 .contact-success {
   margin-top: 1.5rem;
   background: var(--color-surface-alt);

@@ -20,6 +20,18 @@ npm run build
 npm run preview
 ```
 
+## Backend integration
+
+The frontend uses `VITE_API_URL` as its centralized API base URL. For local
+development, set it to `http://localhost:5000/api`. Production builds use the
+deployed backend at `https://capstone-project-d5cd.onrender.com/api` unless a
+different value is provided at build time.
+
+The Explore and destination detail views use the destinations API, Contact
+submits to the enquiry API, and the destination detail page starts the
+Razorpay test checkout through the backend payment API. Backend secrets remain
+server-side.
+
 ## Folder structure
 
 ```
