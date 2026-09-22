@@ -84,12 +84,28 @@ Replace `YOUR_REPOSITORY_URL` with the repository you create. Do not commit `.en
 
 For a Node.js hosting service:
 
-- Build command: none required
+- Install/build command: `npm ci --omit=dev`
 - Start command: `npm start`
-- Configure `PORT`, `MONGO_URI`, `RAZORPAY_KEY_ID`, and `RAZORPAY_KEY_SECRET`
+- Configure `PORT`, `MONGO_URI`, `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET`, and `FRONTEND_URL`
+- Set `FRONTEND_URL` to `https://anshika-roy.github.io/capstone-project-/`
 - Allow the hosting service to access MongoDB Atlas
-- Configure CORS for the deployed frontend origin
-- Use the deployed backend URL in the React frontend
+- The service must expose the platform-provided `PORT` value
+- The deployed API base URL is the service URL, with routes under `/api`
+
+### Backend service settings
+
+For a Node.js service configured from the repository root:
+
+- Root directory: `backend`
+- Install/build command: `npm ci --omit=dev`
+- Start command: `npm start`
+- Health check: `GET /api/health`
+- Destinations API: `GET /api/destinations`
+- Payment API: `POST /api/payment`
+
+The frontend must use the deployed service URL as its API base URL when it is
+connected to the backend. Keep `MONGO_URI` and `RAZORPAY_KEY_SECRET` in the
+hosting provider's environment settings only; never commit them.
 
 Domain/DNS preparation means pointing a purchased domain's DNS records at the hosting service. This project does not purchase a domain or deploy automatically.
 
