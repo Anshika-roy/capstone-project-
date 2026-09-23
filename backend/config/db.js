@@ -8,7 +8,7 @@ const connectDB = async () => {
     throw new Error('MONGO_URI is missing from the .env file.');
   }
 
-  await mongoose.connect(process.env.MONGO_URI);
+  await mongoose.connect(process.env.MONGO_URI.trim());
   console.log('MongoDB Atlas connected successfully.');
 };
 
