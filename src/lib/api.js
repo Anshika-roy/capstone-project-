@@ -20,6 +20,19 @@ const request = async (path, options = {}) => {
   return payload;
 };
 
+const authenticatedRequest = (path, options = {}) => request(path, {
+  ...options,
+  headers: { Authorization: `Bearer ${localStorage.getItem("travelExplorerToken") || ""}`, ...(options.headers || {}) }
+});
+
+export const registerUser = (data) => request("/auth/register", { method: "POST", body: JSON.stringify(data) });
+export const loginUser = (data) => request("/auth/login", { method: "POST", body: JSON.stringify(data) });
+export const logoutUser = () => authenticatedRequest("/auth/logout", { method: "POST" });
+export const getCurrentUser = () => authenticatedRequest("/auth/me");
+export const getSubscription = () => authenticatedRequest("/subscription");
+export const createSubscriptionOrder = () => authenticatedRequest("/payment/create-order", { method: "POST" });
+export const verifySubscriptionPayment = (data) => authenticatedRequest("/payment/verify", { method: "POST", body: JSON.stringify(data) });
+
 const normalizeDestination = (destination) => ({
   ...destination,
   id: destination.id || destination._id,

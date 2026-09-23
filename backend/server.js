@@ -14,6 +14,8 @@ const allowedOrigins = new Set([frontendOrigin, 'http://localhost:5173', 'http:/
 const destinationRoutes = require('./routes/destinationRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
 const formRoutes = require('./routes/formRoutes');
+const authRoutes = require('./routes/authRoutes');
+const subscriptionRoutes = require('./routes/subscriptionRoutes');
 
 app.use(cors({
   origin: (origin, callback) => {
@@ -34,6 +36,8 @@ app.get('/api/health', (req, res) => {
 app.use('/api/destinations', destinationRoutes);
 app.use('/api/payment', paymentRoutes);
 app.use('/api/form', formRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/subscription', subscriptionRoutes);
 
 const startServer = async () => {
   try {

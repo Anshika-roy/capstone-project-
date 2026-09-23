@@ -15,9 +15,17 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
+import Paywall from "./pages/Paywall";
+import Premium from "./pages/Premium";
 
 function ProtectedRoute({ children }) {
   return localStorage.getItem("travelExplorerLogin") ? children : <Navigate to="/login" replace />;
+}
+
+function PremiumRoute({ children }) {
+  const user = JSON.parse(localStorage.getItem("travelExplorerLogin") || "null");
+  if (!user) return <Navigate to="/login" replace />;
+  return user.subscription === "PREMIUM" ? children : <Navigate to="/paywall" replace />;
 }
 
 function App() {
@@ -34,6 +42,8 @@ function App() {
           <Route path="/destination/:id" element={<ProtectedRoute><DestinationDetails /></ProtectedRoute>} />
           <Route path="/about" element={<ProtectedRoute><About /></ProtectedRoute>} />
           <Route path="/contact" element={<ProtectedRoute><Contact /></ProtectedRoute>} />
+          <Route path="/paywall" element={<ProtectedRoute><Paywall /></ProtectedRoute>} />
+          <Route path="/premium" element={<PremiumRoute><Premium /></PremiumRoute>} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="*" element={<Navigate to="/login" replace />} />

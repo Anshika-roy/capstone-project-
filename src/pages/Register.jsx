@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { registerUser } from "../lib/api";
 import "./Contact.css";
 
 const initialForm = { name: "", email: "", password: "", confirmPassword: "" };
@@ -16,7 +17,7 @@ function Register() {
     setError("");
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     if (formData.password.length < 6) {
       setError("Password must contain at least 6 characters.");
@@ -27,14 +28,15 @@ function Register() {
       return;
     }
 
-    localStorage.setItem("travelExplorerRegistration", JSON.stringify({
-      name: formData.name.trim(),
-      email: formData.email.trim().toLowerCase(),
-      password: formData.password
-    }));
-    setMessage("Registration details saved for this browser.");
-    setFormData(initialForm);
-    navigate("/login");
+    try {
+      const response = await registerUser(formData);
+      localStorage.setItem("travelExplorerToken", response.data.token);
+      localStorage.setItem("travelExplorerLogin", JSON.stringify(response.data.user));
+      navigate("/home");
+    } catch (requestError) {
+      setMessage("");
+      setError(requestError.message || "Unable to create backend account.");
+    }
   };
 
   return (

@@ -39,6 +39,7 @@ function Home() {
         </div>
         {isLoading && <p className="data-status">Loading live destinations...</p>}
         {error && <p className="data-status data-status-error">{error}</p>}
+        <p className="form-link"><Link to="/premium">Premium planning guide</Link></p>
         <DestinationGrid destinationList={featured} />
       </section>
     </div>

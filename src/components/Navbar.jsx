@@ -5,6 +5,7 @@
 // <NavLink> so the *active* page is highlighted automatically.
 
 import { NavLink, useNavigate } from "react-router-dom";
+import { logoutUser } from "../lib/api";
 import "./Navbar.css";
 
 function Navbar() {
@@ -27,7 +28,7 @@ function Navbar() {
           <NavLink to="/about" className={linkClass}>About</NavLink>
           <NavLink to="/contact" className={linkClass}>Contact</NavLink>
           <NavLink to="/register" className={linkClass}>Register</NavLink>
-          {isLoggedIn ? <button className="nav-link nav-button" onClick={() => { localStorage.removeItem("travelExplorerLogin"); navigate("/login"); }}>Logout</button> : <NavLink to="/login" className={linkClass}>Login</NavLink>}
+          {isLoggedIn ? <button className="nav-link nav-button" onClick={async () => { await logoutUser().catch(() => {}); localStorage.removeItem("travelExplorerToken"); localStorage.removeItem("travelExplorerLogin"); navigate("/login"); }}>Logout</button> : <NavLink to="/login" className={linkClass}>Login</NavLink>}
         </nav>
       </div>
     </header>

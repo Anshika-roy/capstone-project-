@@ -1,5 +1,6 @@
 const crypto = require("crypto");
 const Razorpay = require("razorpay");
+const User = require("../models/User");
 
 const getRazorpay = () => {
   if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_ID.startsWith("rzp_test_") || !process.env.RAZORPAY_KEY_SECRET) {
@@ -46,4 +47,27 @@ const createPayment = async (req, res) => {
   }
 };
 
-module.exports = { createPayment };
+const createSubscriptionOrder = async (req, res) => {
+  try {
+    const razorpay = getRazorpay();
+    if (!razorpay) return res.status(503).json({ success: false, message: "Razorpay test mode is not configured" });
+    if (req.user.subscriptionStatus === "PREMIUM") return res.status(409).json({ success: false, message: "Premium is already active" });
+    const order = await razorpay.orders.create({ amount: 50000, currency: "INR", receipt: `pro_${Date.now()}`, notes: { purpose: "Travel Destination Explorer Pro subscription" } });
+    await User.findByIdAndUpdate(req.user._id, { razorpayOrderId: order.id });
+    return res.status(201).json({ success: true, data: { orderId: order.id, amount: order.amount, currency: order.currency, keyId: process.env.RAZORPAY_KEY_ID } });
+  } catch (error) {
+    console.error("Razorpay subscription order creation failed.");
+    return res.status(500).json({ success: false, message: "Unable to create subscription order" });
+  }
+};
+
+const verifySubscriptionPayment = async (req, res) => {
+  const { razorpay_order_id: orderId, razorpay_payment_id: paymentId, razorpay_signature: signature } = req.body;
+  if (!orderId || !paymentId || !signature) return res.status(400).json({ success: false, message: "Payment verification data is incomplete" });
+  const expected = crypto.createHmac("sha256", process.env.RAZORPAY_KEY_SECRET || "").update(`${orderId}|${paymentId}`).digest("hex");
+  if (expected !== signature || String(req.user.razorpayOrderId) !== orderId) return res.status(400).json({ success: false, message: "Payment verification failed" });
+  const user = await User.findByIdAndUpdate(req.user._id, { subscriptionStatus: "PREMIUM", razorpayPaymentId: paymentId }, { new: true });
+  return res.json({ success: true, subscription: user.subscriptionStatus });
+};
+
+module.exports = { createPayment, createSubscriptionOrder, verifySubscriptionPayment };

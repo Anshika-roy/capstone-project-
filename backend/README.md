@@ -86,7 +86,7 @@ For a Node.js hosting service:
 
 - Install/build command: `npm ci --omit=dev`
 - Start command: `npm start`
-- Configure `PORT`, `MONGO_URI`, `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET`, and `FRONTEND_URL`
+- Configure `PORT`, `MONGO_URI`, `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET`, `AUTH_SECRET`, and `FRONTEND_URL`
 - Set `FRONTEND_URL` to `https://anshika-roy.github.io/capstone-project-/`
 - Allow the hosting service to access MongoDB Atlas
 - The service must expose the platform-provided `PORT` value
@@ -102,6 +102,9 @@ For a Node.js service configured from the repository root:
 - Health check: `GET /api/health`
 - Destinations API: `GET /api/destinations`
 - Payment API: `POST /api/payment`
+- Auth API: `POST /api/auth/register`, `POST /api/auth/login`, `GET /api/auth/me`
+- Subscription API: `GET /api/subscription`
+- Pro order verification: `POST /api/payment/create-order`, then `POST /api/payment/verify`
 
 The frontend must use the deployed service URL as its API base URL when it is
 connected to the backend. Keep `MONGO_URI` and `RAZORPAY_KEY_SECRET` in the

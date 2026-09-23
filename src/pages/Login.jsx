@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { loginUser } from "../lib/api";
 import "./Contact.css";
 
 function Login() {
@@ -15,7 +16,7 @@ function Login() {
     setError("");
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     if (!formData.email.trim() || !formData.password) {
       setError("Enter both your email and password.");
@@ -25,16 +26,15 @@ function Login() {
       setError("Enter a valid email address.");
       return;
     }
-    const savedRegistration = JSON.parse(localStorage.getItem("travelExplorerRegistration") || "null");
-    if (savedRegistration && savedRegistration.email === formData.email.trim().toLowerCase() && savedRegistration.password === formData.password) {
-      localStorage.setItem("travelExplorerLogin", JSON.stringify({ email: savedRegistration.email }));
-      setMessage("Login form submitted successfully for this lab demonstration.");
-      setError("");
+    try {
+      const response = await loginUser(formData);
+      localStorage.setItem("travelExplorerToken", response.data.token);
+      localStorage.setItem("travelExplorerLogin", JSON.stringify(response.data.user));
       navigate("/home");
-      return;
+    } catch (requestError) {
+      setMessage("");
+      setError(requestError.message || "Unable to log in.");
     }
-    setMessage("");
-    setError("No matching local registration was found. Register first or check your email.");
   };
 
   const handleForgotPassword = (event) => {
