@@ -5,7 +5,7 @@
 // <Routes>, so they appear on every page, while the matched page component
 // is rendered in between.
 
-import { Routes, Route } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
@@ -16,6 +16,10 @@ import Contact from "./pages/Contact";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 
+function ProtectedRoute({ children }) {
+  return localStorage.getItem("travelExplorerLogin") ? children : <Navigate to="/login" replace />;
+}
+
 function App() {
   return (
     <div className="app-shell">
@@ -24,15 +28,15 @@ function App() {
       <main className="app-main">
         <Routes>
           <Route path="/" element={<Login />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/explore" element={<Explore />} />
+          <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+          <Route path="/explore" element={<ProtectedRoute><Explore /></ProtectedRoute>} />
           {/* Dynamic route: ":id" is a URL parameter, read with useParams() */}
-          <Route path="/destination/:id" element={<DestinationDetails />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
+          <Route path="/destination/:id" element={<ProtectedRoute><DestinationDetails /></ProtectedRoute>} />
+          <Route path="/about" element={<ProtectedRoute><About /></ProtectedRoute>} />
+          <Route path="/contact" element={<ProtectedRoute><Contact /></ProtectedRoute>} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="*" element={<Home />} />
+          <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
       </main>
 

@@ -29,7 +29,8 @@ function Register() {
 
     localStorage.setItem("travelExplorerRegistration", JSON.stringify({
       name: formData.name.trim(),
-      email: formData.email.trim().toLowerCase()
+      email: formData.email.trim().toLowerCase(),
+      password: formData.password
     }));
     setMessage("Registration details saved for this browser.");
     setFormData(initialForm);
