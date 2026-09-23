@@ -23,7 +23,8 @@ function App() {
 
       <main className="app-main">
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Login />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/explore" element={<Explore />} />
           {/* Dynamic route: ":id" is a URL parameter, read with useParams() */}
           <Route path="/destination/:id" element={<DestinationDetails />} />

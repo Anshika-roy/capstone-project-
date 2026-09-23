@@ -20,7 +20,7 @@ function Navbar() {
         </NavLink>
 
         <nav className="nav-links">
-          <NavLink to="/" end className={linkClass}>Home</NavLink>
+          <NavLink to="/home" className={linkClass}>Home</NavLink>
           <NavLink to="/explore" className={linkClass}>Explore</NavLink>
           <NavLink to="/about" className={linkClass}>About</NavLink>
           <NavLink to="/contact" className={linkClass}>Contact</NavLink>

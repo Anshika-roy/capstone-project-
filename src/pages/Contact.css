@@ -58,6 +58,10 @@
   color: #a33a3a;
 }
 
+.form-link {
+  margin-top: 1rem;
+}
+
 .contact-success {
   margin-top: 1.5rem;
   background: var(--color-surface-alt);

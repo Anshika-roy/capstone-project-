@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "./Contact.css";
 
 const initialForm = { name: "", email: "", password: "", confirmPassword: "" };
 
 function Register() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState(initialForm);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -31,6 +33,7 @@ function Register() {
     }));
     setMessage("Registration details saved for this browser.");
     setFormData(initialForm);
+    navigate("/login");
   };
 
   return (
@@ -46,6 +49,7 @@ function Register() {
         {message && <p className="payment-message">{message}</p>}
         <button type="submit" className="submit-btn">Register</button>
       </form>
+      <p className="form-link">Already registered? <Link to="/login">Login here</Link></p>
     </div>
   );
 }

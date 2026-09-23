@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "./Contact.css";
 
 function Login() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -19,6 +21,7 @@ function Login() {
       localStorage.setItem("travelExplorerLogin", JSON.stringify({ email: savedRegistration.email }));
       setMessage("Login form submitted successfully for this lab demonstration.");
       setError("");
+      navigate("/home");
       return;
     }
     setMessage("");
@@ -36,6 +39,7 @@ function Login() {
         {message && <p className="payment-message">{message}</p>}
         <button type="submit" className="submit-btn">Login</button>
       </form>
+      <p className="form-link">New traveller? <Link to="/register">Register here</Link></p>
     </div>
   );
 }
